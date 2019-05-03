@@ -1,0 +1,10 @@
+{# templates/contact/form.html.twig #}
+<h3>Formulaire de contact</h3>
+<div class="well">
+    {% for message in app.flashes('notice') %}
+        <div class="flash-notice">
+            {{ message }}
+        </div>
+    {% endfor %}
+{{ form(form) }}
+</div>
