@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190503202249 extends AbstractMigration
+final class Version20190503204636 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,9 +22,7 @@ final class Version20190503202249 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE responsables ADD departement_id INT NOT NULL');
-        $this->addSql('ALTER TABLE responsables ADD CONSTRAINT FK_853808A5CCF9E01E FOREIGN KEY (departement_id) REFERENCES departement (id)');
-        $this->addSql('CREATE INDEX IDX_853808A5CCF9E01E ON responsables (departement_id)');
+        $this->addSql('CREATE TABLE responsable (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
     }
 
     public function down(Schema $schema) : void
@@ -32,8 +30,6 @@ final class Version20190503202249 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE responsables DROP FOREIGN KEY FK_853808A5CCF9E01E');
-        $this->addSql('DROP INDEX IDX_853808A5CCF9E01E ON responsables');
-        $this->addSql('ALTER TABLE responsables DROP departement_id');
+        $this->addSql('DROP TABLE responsable');
     }
 }

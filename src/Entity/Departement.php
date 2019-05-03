@@ -24,13 +24,13 @@ class Departement
     private $Nom;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Responsables", mappedBy="departement")
+     * @ORM\OneToMany(targetEntity="App\Entity\Responsable", mappedBy="departement", cascade={"persist"})
      */
-    private $responsables;
+    private $responsable;
 
     public function __construct()
     {
-        $this->responsables = new ArrayCollection();
+        $this->responsable = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,27 +51,27 @@ class Departement
     }
 
     /**
-     * @return Collection|Responsables[]
+     * @return Collection|Responsable[]
      */
-    public function getResponsables(): Collection
+    public function getResponsable(): Collection
     {
-        return $this->responsables;
+        return $this->responsable;
     }
 
-    public function addResponsable(Responsables $responsable): self
+    public function addResponsable(Responsable $responsable): self
     {
-        if (!$this->responsables->contains($responsable)) {
-            $this->responsables[] = $responsable;
+        if (!$this->responsable->contains($responsable)) {
+            $this->responsable[] = $responsable;
             $responsable->setDepartement($this);
         }
 
         return $this;
     }
 
-    public function removeResponsable(Responsables $responsable): self
+    public function removeResponsable(Responsable $responsable): self
     {
-        if ($this->responsables->contains($responsable)) {
-            $this->responsables->removeElement($responsable);
+        if ($this->responsable->contains($responsable)) {
+            $this->responsable->removeElement($responsable);
             // set the owning side to null (unless already changed)
             if ($responsable->getDepartement() === $this) {
                 $responsable->setDepartement(null);

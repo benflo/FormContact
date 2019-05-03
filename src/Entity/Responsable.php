@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ResponsablesRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ResponsableRepository")
  */
-class Responsables
+class Responsable
 {
     /**
      * @ORM\Id()
@@ -19,20 +19,15 @@ class Responsables
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Nom;
+    private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Prenom;
+    private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $Email;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Departement", inversedBy="responsables")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Departement", inversedBy="responsable")
      * @ORM\JoinColumn(nullable=false)
      */
     private $departement;
@@ -44,36 +39,24 @@ class Responsables
 
     public function getNom(): ?string
     {
-        return $this->Nom;
+        return $this->nom;
     }
 
-    public function setNom(string $Nom): self
+    public function setNom(string $nom): self
     {
-        $this->Nom = $Nom;
-
-        return $this;
-    }
-
-    public function getPrenom(): ?string
-    {
-        return $this->Prenom;
-    }
-
-    public function setPrenom(string $Prenom): self
-    {
-        $this->Prenom = $Prenom;
+        $this->nom = $nom;
 
         return $this;
     }
 
     public function getEmail(): ?string
     {
-        return $this->Email;
+        return $this->email;
     }
 
-    public function setEmail(string $Email): self
+    public function setEmail(string $email): self
     {
-        $this->Email = $Email;
+        $this->email = $email;
 
         return $this;
     }
