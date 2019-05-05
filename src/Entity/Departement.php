@@ -21,7 +21,7 @@ class Departement
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Nom;
+    private $designation;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Responsable", mappedBy="departement", cascade={"persist"})
@@ -38,14 +38,14 @@ class Departement
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getDesignation(): ?string
     {
-        return $this->Nom;
+        return $this->designation;
     }
 
-    public function setNom(string $Nom): self
+    public function setDesignation(string $designation): self
     {
-        $this->Nom = $Nom;
+        $this->designation = $designation;
 
         return $this;
     }

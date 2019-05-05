@@ -8,61 +8,57 @@
 namespace App\Controller;
 
 use App\Entity\Contact;
+use App\Form\ContactType;
+use App\Repository\ResponsableRepository;
 use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Routing\Annotation\Route as Route;
 
 class ContactController extends AbstractController
 {
+    /** @var ResponsableRepository $responsableRepository */
+    private $responsableRepository;
+
+    /**
+     * ContactController constructor.
+     *
+     * @param ResponsableRepository $responsableRepository
+     */
+    public function __construct(ResponsableRepository $responsableRepository)
+    {
+        $this->responsableRepository = $responsableRepository;
+    }
+
     /**
      * @Route("/contact/form", name="form_index")
      */
     public function new(Request $request)
     {
-
         // creates a task and gives it some dummy data for this example
         $contact = new Contact();
-        $contact->setNom('nom');
-        $contact->setPrenom('prenom');
-        $contact->setMail('mail');
-        $contact->setMessage('message');
 
-        $form = $this->createFormBuilder($contact)
-            ->add('nom', TextType::class)
-            ->add('prenom', TextType::class)
-            ->add('mail', TextType::class)
-            //->add('departement',ChoiceType::class)
-            ->add('message', TextareaType::class)
-            ->add('save', SubmitType::class, ['label' => 'Envoyer mail'])
-            ->getForm();
+        $form = $this->createForm(ContactType::class, $contact);
 
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
-            // On vérifie que les valeurs entrées sont correctes
+        // Action quand formulaire soumis et si données valides (respect selon le ContactType).
+        if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($form->isSubmitted() && $form->isValid()) {
-
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($contact);
-                $em->flush();
-
-                $this->addFlash('notice', 'mail bien envoyé.');
-
-                return $this->redirectToRoute('form_index');
-            }
+            $departementSelected = $form->get('departement')->getData()->getId();
 
 
-
-                return $this->render('contact/form.html.twig', [
-                    'form' => $form->createView(),
+            $adresses = $this->responsableRepository->findByDepartmentId($departementSelected);
 
 
-                ]);
-            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($contact);
+            $em->flush();
+            $this->addFlash('notice', 'mail bien envoyé.');
+            return $this->redirectToRoute('form_index');
+        }
+        return $this->render('contact/form.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 }

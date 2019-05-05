@@ -34,13 +34,20 @@ class Contact
      * )
      * @ORM\Column(type="string", length=255)
      */
-    private $mail;
+    private $email;
 
     /**
      * @ORM\Column(type="text")
      */
     private $message;
 
+    /**
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     public function getNom(): ?string
     {
@@ -66,14 +73,14 @@ class Contact
         return $this;
     }
 
-    public function getMail(): ?string
+    public function getEmail(): ?string
     {
-        return $this->mail;
+        return $this->email;
     }
 
-    public function setMail(string $mail): self
+    public function setEmail(string $mail): self
     {
-        $this->mail = $mail;
+        $this->email = $mail;
 
         return $this;
     }

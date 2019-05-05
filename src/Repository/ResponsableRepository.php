@@ -6,12 +6,6 @@ use App\Entity\Responsable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-/**
- * @method Responsable|null find($id, $lockMode = null, $lockVersion = null)
- * @method Responsable|null findOneBy(array $criteria, array $orderBy = null)
- * @method Responsable[]    findAll()
- * @method Responsable[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class ResponsableRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
@@ -19,32 +13,19 @@ class ResponsableRepository extends ServiceEntityRepository
         parent::__construct($registry, Responsable::class);
     }
 
-    // /**
-    //  * @return Responsable[] Returns an array of Responsable objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param int $departmentId
+     *
+     * @return array|null
+     */
+    public function findByDepartmentId(int $departmentId)
     {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
+            ->select('r.email')
+            ->where('r.departement = :departmentId')
+            ->setParameter(':departmentId', $departmentId)
             ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Responsable
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
