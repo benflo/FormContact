@@ -14,7 +14,7 @@ class MailGenerator
     public function getHappyMessage()
     {
         $messages = [
-            'youpi!',
+            'message envoyé',
         ];
 
         $index = array_rand($messages);
