@@ -15,7 +15,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
             $RH = new Departement();
-            $RH->setNom('Ressources Humaines');
+            $RH->setDesignation('Ressources Humaines');
             $ResponsableRH= new Responsable();
             $ResponsableRH->setNom('Michel');
             $ResponsableRH->setEmail('Michel@rh.fr');
@@ -25,7 +25,7 @@ class AppFixtures extends Fixture
             $RH->addResponsable($ResponsableRH);
             $RH->addResponsable($ResponsableRH2);
             $Com = new Departement();
-            $Com->setNom('Communication');
+            $Com->setDesignation('Communication');
             $ResponsableCom= new Responsable();
             $ResponsableCom->setNom('Jacques');
             $ResponsableCom->setEmail('Jacques@com.fr');
@@ -35,7 +35,7 @@ class AppFixtures extends Fixture
             $Com->addResponsable($ResponsableCom);
             $Com->addResponsable($ResponsableCom2);
             $Dev = new Departement();
-            $Dev->setNom('Développement');
+            $Dev->setDesignation('Développement');
             $ResponsableDev= new Responsable();
             $ResponsableDev->setNom('Richard');
             $ResponsableDev->setEmail('Richard@dev.fr');
