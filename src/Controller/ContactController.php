@@ -52,25 +52,29 @@ class ContactController extends AbstractController
             // 2. Récupérer le ou les courriels du département associé au département sélectionné dans le formulaire
             $adresses = $this->responsableRepository->findByDepartmentId($departementSelected);
 
-            $message = (new \Swift_Message($contact))
-                ->setFrom($departementSelected['email'])
+            $message = (new \Swift_Message('Hello Email'))
+                ->setFrom('send@example.com')
                 ->setTo('recipient@example.com')
                 ->setBody(
                     $this->renderView(
-                        'contact/form.html.twig', [
-                            'form' => $form->createView() ]
-                    )
-                )
-            ;
+                    // templates/emails/registration.html.twig
+                        'emails/contact.html.twig',
+                        ['form' => $form->getData()]
+                    ),
+                    'text/html'
+                );
             $mailer->send($message);
+
             //3.Essayer d'envoyer le / les courriel(s) depuis un service dédié si réussite, message disant "youpi" + sauvegarde message objet Contact en BDD sinon, erreur système "Une erreur est survenue durant le processus, Si cela se produit de nouveau, merci de contacter l'administrateur."
             $em = $this->getDoctrine()->getManager();
             $em->persist($contact);
             $em->flush();
             $message = $mailGenerator->getHappyMessage();
             $this->addFlash('notice', $message);
+
             return $this->redirectToRoute('form_index');
         }
+
         return $this->render('contact/form.html.twig', [
             'form' => $form->createView(),
         ]);
